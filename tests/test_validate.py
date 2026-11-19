@@ -70,6 +70,14 @@ class ValidateTests(unittest.TestCase):
             out = validate.validate(root)
             self.assertTrue(any(s == "error" and "company" in m for s, m in out))
 
+    def test_empty_title_is_error(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "projects").mkdir()
+            _write(root, "projects/project-demo.md", GOOD.replace('title: Demo\n', 'title: ""\n'))
+            out = validate.validate(root)
+            self.assertTrue(any(s == "error" and "title" in m for s, m in out))
+
     def test_duplicate_id_is_error(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)

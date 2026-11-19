@@ -119,6 +119,8 @@ def validate(root: Path):
         for k in BASE_REQUIRED:
             if k not in fm:
                 out.append(("error", f"{f}: missing required field {k}"))
+        if not fm.get("title"):
+            out.append(("error", f"{f}: title is empty"))
         typ = fm.get("type")
         if typ not in TYPES:
             out.append(("error", f"{f}: invalid type {typ!r}"))
@@ -136,7 +138,10 @@ def validate(root: Path):
             else:
                 out.append(("warning", f"{f}: empty sources"))
         for ref_k in ("solves", "used_by"):
-            for ref in fm.get(ref_k) or []:
+            refs = fm.get(ref_k) or []
+            if isinstance(refs, str):
+                refs = [refs]
+            for ref in refs:
                 if ref and not any((root / d / f"{ref}.md").exists() for d in CONTENT_DIRS):
                     out.append(("error", f"{f}: {ref_k} references missing id {ref}"))
     return out
