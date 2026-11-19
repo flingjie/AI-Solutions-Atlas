@@ -19,6 +19,7 @@ TYPE_REQUIRED = {
 }
 ID_RE = re.compile(r"^[a-z0-9-]+$")
 LIST_RE = re.compile(r"^\[(.*)\]$")
+REF_TYPES = {"solves": "problem", "used_by": "project"}
 
 
 def _scalar(raw: str):
@@ -102,7 +103,8 @@ def _collect(root: Path):
 def validate(root: Path):
     """Return a list of (severity, message) tuples. severity is error or warning."""
     out = []
-    seen_ids = {}
+    index = {}   # id -> (type, path)
+    records = []  # (path, fm, type)
     for d, f in _collect(root):
         text = f.read_text(encoding="utf-8")
         fm = parse_frontmatter(text)
@@ -113,15 +115,16 @@ def validate(root: Path):
         if not rid or not ID_RE.match(str(rid)):
             out.append(("error", f"{f}: id missing or not kebab-case"))
             continue
-        if rid in seen_ids:
-            out.append(("error", f"{f}: duplicate id {rid} (also {seen_ids[rid]})"))
-        seen_ids[rid] = f
+        if rid in index:
+            out.append(("error", f"{f}: duplicate id {rid} (also {index[rid][1]})"))
+        typ = fm.get("type")
+        index[rid] = (typ, f)
+        records.append((f, fm, typ))
         for k in BASE_REQUIRED:
             if k not in fm:
                 out.append(("error", f"{f}: missing required field {k}"))
         if not fm.get("title"):
             out.append(("error", f"{f}: title is empty"))
-        typ = fm.get("type")
         if typ not in TYPES:
             out.append(("error", f"{f}: invalid type {typ!r}"))
             continue
@@ -137,13 +140,24 @@ def validate(root: Path):
                 out.append(("error", f"{f}: published with no sources"))
             else:
                 out.append(("warning", f"{f}: empty sources"))
-        for ref_k in ("solves", "used_by"):
+    # Pass 2: resolve references with type check.
+    for f, fm, _typ in records:
+        for ref_k, expected in REF_TYPES.items():
             refs = fm.get(ref_k) or []
             if isinstance(refs, str):
                 refs = [refs]
             for ref in refs:
-                if ref and not any((root / d / f"{ref}.md").exists() for d in CONTENT_DIRS):
+                if not ref:
+                    continue
+                if ref not in index:
                     out.append(("error", f"{f}: {ref_k} references missing id {ref}"))
+                else:
+                    actual, target_path = index[ref]
+                    if actual != expected:
+                        out.append((
+                            "error",
+                            f"{f}: {ref_k} expects {expected} but {ref} is {actual} ({target_path})",
+                        ))
     return out
 
 

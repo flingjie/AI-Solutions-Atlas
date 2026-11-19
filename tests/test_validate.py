@@ -45,6 +45,52 @@ sources:
 A fact [1].
 """
 
+PROJECT = GOOD
+
+PROBLEM = """---
+id: problem-demo
+title: Demo problem
+type: problem
+domain: ai-marketing-gtm
+status: draft
+created: 2026-11-19
+updated: 2026-11-19
+who: marketing teams
+pain_points: []
+sources:
+  - url: https://example.com
+    title: "Demo"
+    accessed: 2026-11-19
+    via: webfetch
+---
+
+# Demo problem
+"""
+
+
+def _solution(solves="problem-demo", used_by="project-demo"):
+    return f"""---
+id: solution-demo
+title: Demo solution
+type: solution
+domain: ai-marketing-gtm
+status: draft
+created: 2026-11-19
+updated: 2026-11-19
+solves: [{solves}]
+used_by: [{used_by}]
+mechanism: a cited mechanism
+limitations: []
+sources:
+  - url: https://example.com
+    title: "Demo"
+    accessed: 2026-11-19
+    via: webfetch
+---
+
+# Demo solution
+"""
+
 
 class ValidateTests(unittest.TestCase):
     def test_clean_record(self):
@@ -110,6 +156,56 @@ class ValidateTests(unittest.TestCase):
             _write(root, "projects/project-demo.md", text)
             out = validate.validate(root)
             self.assertTrue(any(s == "error" and "source" in m for s, m in out))
+
+    def test_valid_references_pass(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "projects").mkdir()
+            (root / "problems").mkdir()
+            (root / "solutions").mkdir()
+            _write(root, "projects/project-demo.md", PROJECT)
+            _write(root, "problems/problem-demo.md", PROBLEM)
+            _write(root, "solutions/solution-demo.md", _solution())
+            out = validate.validate(root)
+            self.assertEqual(out, [])
+
+    def test_reference_to_missing_id_is_error(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "projects").mkdir()
+            (root / "problems").mkdir()
+            (root / "solutions").mkdir()
+            _write(root, "projects/project-demo.md", PROJECT)
+            _write(root, "problems/problem-demo.md", PROBLEM)
+            _write(root, "solutions/solution-demo.md", _solution(solves="problem-missing"))
+            out = validate.validate(root)
+            self.assertTrue(any(s == "error" and "missing id" in m for s, m in out))
+
+    def test_solves_pointing_at_project_is_type_error(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "projects").mkdir()
+            (root / "problems").mkdir()
+            (root / "solutions").mkdir()
+            _write(root, "projects/project-demo.md", PROJECT)
+            _write(root, "problems/problem-demo.md", PROBLEM)
+            _write(root, "solutions/solution-demo.md", _solution(solves="project-demo"))
+            out = validate.validate(root)
+            self.assertTrue(any(
+                s == "error" and "expects problem" in m and "is project" in m for s, m in out
+            ))
+
+    def test_renamed_file_with_stable_id_resolves(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "projects").mkdir()
+            (root / "problems").mkdir()
+            (root / "solutions").mkdir()
+            _write(root, "projects/renamed-file.md", PROJECT)  # id is still project-demo
+            _write(root, "problems/problem-demo.md", PROBLEM)
+            _write(root, "solutions/solution-demo.md", _solution())
+            out = validate.validate(root)
+            self.assertEqual(out, [])
 
 
 if __name__ == "__main__":
