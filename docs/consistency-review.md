@@ -51,6 +51,16 @@ does not build it. **follow-up** means the design defers it.
 - **G5 — Body links are not checked.** `validate.py` checks frontmatter
   references only. It does not parse Markdown links in the body. Spec §8.3
   requires internal references to resolve to existing files. **spec gap**
+- **G15 — `_scalar` mis-parses quoted commas.** `_scalar` splits flow lists on
+  raw commas without honoring quotes, so a quoted value containing a comma is
+  split. Harmless today (those fields are not yet validated), but it will
+  corrupt `claims`/`pain_points`/`limitations` once G1/G2 are implemented.
+  **follow-up**
+- **G16 — `related` is absent from the schema, not just unchecked.** Spec §8.6
+  lists `related`, but `skills/_shared/frontmatter.md` and the four templates do
+  not define it, and no sample uses it. This is a schema drift that G4
+  understates: a validator check would be dead code until the field is added to
+  the schema. **spec gap**
 
 ### Templates
 
@@ -80,6 +90,12 @@ does not build it. **follow-up** means the design defers it.
   research record. **follow-up**
 - **G12 — No comparison-report template.** `ROADMAP.md` lists this template as
   "Later (not planned)". This is a deferred design decision. **follow-up**
+- **G14 — Problem record drifts from its evidence base.** The problem record
+  introduces vendor-homepage claims that are absent from the project records
+  (for example "using AI for individual tasks only gets you so far") and cites
+  the homepages directly instead of the project ids. The §6 rule
+  "`projects/` is the evidence base; other types cite it" is honored in prose,
+  not structurally. **follow-up**
 
 ### Structure
 
