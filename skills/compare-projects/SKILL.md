@@ -8,6 +8,8 @@ description: >
 
 # compare-projects
 
+## Purpose
+
 Write one `research/<id>.md` comparison. Comparison is same-axis and evidence
 based; it does not assign a combined score.
 

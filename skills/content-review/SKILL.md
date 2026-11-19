@@ -8,6 +8,8 @@ description: >
 
 # content-review
 
+## Purpose
+
 Review records for correctness, evidence, and structure. Never fabricate a fix.
 
 ## Input

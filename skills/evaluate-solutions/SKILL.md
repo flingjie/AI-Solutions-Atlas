@@ -9,6 +9,8 @@ description: >
 
 # evaluate-solutions
 
+## Purpose
+
 Create one `solutions/<id>.md` per pattern. A solution record links a problem
 (`solves`) to the projects that use it (`used_by`).
 

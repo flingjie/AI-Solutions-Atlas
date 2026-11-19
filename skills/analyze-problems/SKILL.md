@@ -9,6 +9,8 @@ description: >
 
 # analyze-problems
 
+## Purpose
+
 Create one `problems/<id>.md` per problem. The problem must trace to evidence,
 not be invented to match a tool.
 

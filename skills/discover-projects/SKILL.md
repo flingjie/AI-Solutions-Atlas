@@ -9,6 +9,8 @@ description: >
 
 # discover-projects
 
+## Purpose
+
 Create one `projects/<id>.md` record per project. The record is evidence-only:
 official claims are recorded as claims, never as facts.
 
