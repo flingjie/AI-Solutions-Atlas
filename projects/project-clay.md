@@ -9,7 +9,7 @@ updated: 2026-11-19
 company: Clay
 category: workflow
 url: https://www.clay.com/
-claims: ["Infrastructure to get any data and run agentic workflows", "Trusted by more than 500000 leading GTM teams", "One contract to buy data from 200+ data and AI vendors", "Agents that turn context into research scoring and personalized outreach", "Build GTM plays on a visual canvas"]
+claims: ["Infrastructure to get any data and run agentic workflows", "Trusted by more than 500,000 leading GTM teams of all sizes", "One contract to buy data from 200+ data and AI vendors", "Agents that turn context into research scoring and personalized outreach", "Build GTM plays on a visual canvas"]
 sources:
   - url: https://www.clay.com/
     title: Clay | Build systems to grow revenue
@@ -25,7 +25,7 @@ Clay is a GTM platform [1]. The page states that Clay provides "infrastructure t
 
 ## Official claims
 
-- Clay claims that more than 500,000 GTM teams use the product (official claim) [1].
+- Clay claims that it is "Trusted by more than 500,000 leading GTM teams of all sizes" (official claim) [1].
 - Clay claims that one contract gives access to data from 200+ data and AI vendors (official claim) [1].
 - Clay claims that its agents "understand your business and accounts" (official claim) [1].
 - Clay claims that teams can build GTM plays on a visual canvas (official claim) [1].

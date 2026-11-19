@@ -7,7 +7,7 @@ status: draft
 created: 2026-11-19
 updated: 2026-11-19
 who: Marketing teams and GTM teams at large companies
-current_approach: Teams use general-purpose AI for isolated tasks and do account research and follow-up manually
+current_approach: (inferred) Teams use general-purpose AI for isolated tasks and do account research and follow-up manually
 pain_points: ["Isolated AI use does not scale across the marketing organization", "Campaign production is slow", "Manual account research and follow-up limit selling time", "CRM records become stale", "Brand consistency is difficult at team scale"]
 sources:
   - url: https://www.jasper.ai/

@@ -25,9 +25,9 @@ sources:
 
 ## Mechanism
 
-- Jasper applies brand voice, style guides, audience profiles, and product knowledge to every output automatically [1]. Jasper agents run end-to-end marketing workflows [1].
-- Clay agents "understand your business and accounts" and turn context into research, scoring, and personalized outreach [2].
-- Both products add orchestration to the model. Jasper describes content pipelines [1]. Clay describes a visual canvas for GTM plays [2].
+- `(official claim)` Jasper says that it applies brand voice, style guides, audience profiles, and product knowledge to every output automatically [1]. Jasper says that its agents run end-to-end marketing workflows [1].
+- `(official claim)` Clay says that its agents "understand your business and accounts" and turn context into research, scoring, and personalized outreach [2].
+- `(inferred)` Both products add orchestration to the model. Jasper describes content pipelines [1]. Clay describes a visual canvas for GTM plays [2].
 - `(inferred)` The shared pattern has three parts: company or account context, an AI agent, and a multi-step workflow.
 
 ## Who uses it
