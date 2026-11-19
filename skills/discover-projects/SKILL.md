@@ -44,7 +44,8 @@ official claims are recorded as claims, never as facts.
 - `id` is unique and kebab-case.
 - `category` is in the domain taxonomy.
 - Every body fact has a `[n]` citation.
-- Run `python3 scripts/validate.py`; fix all errors.
+- Run `python3 scripts/validate.py`; fix only the record you created. Report
+  errors outside that scope per `skills/_shared/write-scope.md`.
 
 ## Example
 

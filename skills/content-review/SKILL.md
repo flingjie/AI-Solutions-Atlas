@@ -22,7 +22,8 @@ Review records for correctness, evidence, and structure. Never fabricate a fix.
 
 ## Workflow
 
-1. Run `python3 scripts/validate.py` and fix every error.
+1. Run `python3 scripts/validate.py` and report every error. Fix only the
+   records the caller named, per `skills/_shared/write-scope.md`.
 2. For each record, check the eight principles in order.
 3. Check every `[n]` citation resolves to `sources[n-1]`.
 4. Check facts are cited, inferences are `(inferred)`, and assumptions are
